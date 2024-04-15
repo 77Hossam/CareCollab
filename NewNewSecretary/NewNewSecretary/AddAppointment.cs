@@ -18,7 +18,7 @@ namespace NewNewSecretary
     {
         SqlConnection con = new SqlConnection();
         //MySQL connection
-        MySqlConnection mySqlConnection = new MySqlConnection("server=sql12.freesqldatabase.com; user=sql12628032; database=sql12628032; password=fVWYdFY3Wc");
+        //MySqlConnection mySqlConnection = new MySqlConnection("server=sql12.freesqldatabase.com; user=sql12628032; database=sql12628032; password=fVWYdFY3Wc");
 
         public AddAppointment()
         {
@@ -53,7 +53,7 @@ namespace NewNewSecretary
             apntm.Parameters.Add("@pNID", PNID);
             apntm.ExecuteNonQuery();
 
-            mySqlConnection.Open();
+            //mySqlConnection.Open();
             SqlCommand reserved = new SqlCommand("select * from Appointment where pNID = @pNID and apDate = @apDate;", con);
             reserved.Parameters.Add("@pNID", PNID);
             reserved.Parameters.Add("@apDate", dateTimePicker1.Value.ToString());
@@ -69,13 +69,13 @@ namespace NewNewSecretary
             dateTimePicker1.CustomFormat = "YYYY-MM-dd";
             String date = dateTimePicker1.Value.ToString("yyyy-MM-dd");
 
-            MySqlCommand appoint = new MySqlCommand("insert into Appointment(appointmentNum, apTime, apDate, pNID) values(@appointmentNum, @apTime, @apDate, @pNID);", mySqlConnection);
-            appoint.Parameters.AddWithValue("@appointmentNum",appointmentNum);
-            appoint.Parameters.AddWithValue("@apTime", textBox1.Text);
-            appoint.Parameters.AddWithValue("@apDate", date);
-            appoint.Parameters.AddWithValue("@pNID", PNID);
-            appoint.ExecuteNonQuery();
-            mySqlConnection.Close();
+            //MySqlCommand appoint = new MySqlCommand("insert into Appointment(appointmentNum, apTime, apDate, pNID) values(@appointmentNum, @apTime, @apDate, @pNID);", mySqlConnection);
+            //appoint.Parameters.AddWithValue("@appointmentNum",appointmentNum);
+            //appoint.Parameters.AddWithValue("@apTime", textBox1.Text);
+            //appoint.Parameters.AddWithValue("@apDate", date);
+            //appoint.Parameters.AddWithValue("@pNID", PNID);
+            //appoint.ExecuteNonQuery();
+            //mySqlConnection.Close();
             con.Close();
 
             this.Close();

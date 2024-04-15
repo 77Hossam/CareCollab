@@ -26,7 +26,7 @@ namespace NewNewSecretary
         //protected FhirClient _client;
         SqlConnection con = new SqlConnection();
         //MySQL connection
-        MySqlConnection mySqlConnection = new MySqlConnection("server=sql12.freesqldatabase.com; user=sql12628032; database=sql12628032; password=fVWYdFY3Wc");
+        //MySqlConnection mySqlConnection = new MySqlConnection("server=sql12.freesqldatabase.com; user=sql12628032; database=sql12628032; password=fVWYdFY3Wc");
 
         public AddPatient()
         {
@@ -83,7 +83,7 @@ namespace NewNewSecretary
             patientdata.ExecuteNonQuery();
             con.Close();
 
-            mySqlConnection.Open();
+            //mySqlConnection.Open();
             String patient_fname = TxtFirstName.Text;
             String patient_lname = TxtLastName.Text;
             long NID = long.Parse(TxtNationalID.Text);
@@ -98,16 +98,16 @@ namespace NewNewSecretary
             {
                 Gender = "Female";
             }
-            MySqlCommand newPatient = new MySqlCommand("Insert into patient(NID, patient_fname, patient_lname, phoneNumber, age, Gender) values(@NID, @patient_fname, @patient_lname, @phoneNumber, @age, @Gender);", mySqlConnection);
-            newPatient.Parameters.AddWithValue("@patient_fname", patient_fname);
-            newPatient.Parameters.AddWithValue("@patient_lname", patient_lname);
-            newPatient.Parameters.AddWithValue("@NID", NID);
-            newPatient.Parameters.AddWithValue("@phoneNumber", phoneNumber);
-            newPatient.Parameters.AddWithValue("@age", age);
-            newPatient.Parameters.AddWithValue("@Gender", Gender);
+            //MySqlCommand newPatient = new MySqlCommand("Insert into patient(NID, patient_fname, patient_lname, phoneNumber, age, Gender) values(@NID, @patient_fname, @patient_lname, @phoneNumber, @age, @Gender);", mySqlConnection);
+            //newPatient.Parameters.AddWithValue("@patient_fname", patient_fname);
+            //newPatient.Parameters.AddWithValue("@patient_lname", patient_lname);
+            //newPatient.Parameters.AddWithValue("@NID", NID);
+            //newPatient.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+            //newPatient.Parameters.AddWithValue("@age", age);
+            //newPatient.Parameters.AddWithValue("@Gender", Gender);
 
-            newPatient.ExecuteNonQuery();
-            mySqlConnection.Close();
+            //newPatient.ExecuteNonQuery();
+            //mySqlConnection.Close();
 
             MessageBox.Show("Patient Added Successfully");
             this.Close();

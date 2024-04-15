@@ -34,9 +34,10 @@ namespace DrPanel.UserControls
 {
     public partial class PrescriptionUserControl : UserControl
     {
+        public bool flag = false;
         SqlConnection con = new SqlConnection();
         //MySQL connection
-        MySqlConnection mySqlConnection = new MySqlConnection("server=sql12.freesqldatabase.com; user=sql12628032; database=sql12628032; password=fVWYdFY3Wc");
+        //MySqlConnection mySqlConnection = new MySqlConnection("server=sql12.freesqldatabase.com; user=sql12628032; database=sql12628032; password=fVWYdFY3Wc");
 
         public PrescriptionUserControl()
         {
@@ -231,6 +232,54 @@ namespace DrPanel.UserControls
 
         private void btnNavigate_Click_1(object sender, EventArgs e)
         {
+            if(flag == false)
+            {
+                con.Open();
+                //mySqlConnection.Open();
+                SqlCommand pres = new SqlCommand("select * from Prescription where active = 1;", con);
+                SqlDataReader presReader = pres.ExecuteReader();
+                int prsID = 0;
+                long NID = 0;
+                int drugsamount = 0;
+                while (presReader.Read())
+                {
+                    prsID = int.Parse(presReader["prsID"].ToString());
+                    drugsamount = int.Parse(presReader["drugsAmount"].ToString());
+                    NID = long.Parse(presReader["NID"].ToString());
+                    String ddiagnosis = presReader["Diagnosis"].ToString();
+                    /*MySqlCommand presc = new MySqlCommand("insert into Prescription(prsID, NID, drugsAmount, active, Diagnosis, prDate) values(@prsID, @NID, @drugsAmount, @active, @Diagnosis, @prDate);", mySqlConnection);
+                    presc.Parameters.AddWithValue("@prsID", prsID);
+                    presc.Parameters.AddWithValue("@NID", NID);
+                    presc.Parameters.AddWithValue("@Diagnosis", ddiagnosis);
+                    presc.Parameters.AddWithValue("@drugsAmount", drugsamount);
+                    presc.Parameters.AddWithValue("@prDate", DateTime.Now.Date.ToString("yyyy-MM-dd"));
+                    presc.Parameters.AddWithValue("@active", 0);
+                    presc.ExecuteNonQuery();*/
+                }
+                presReader.Close();
+                SqlCommand Drugss = new SqlCommand("select * from drug where presID = @presID", con);
+                Drugss.Parameters.Add("@presID", prsID);
+                SqlDataReader drugsReader = Drugss.ExecuteReader();
+                /*while (drugsReader.Read())
+                {
+                    MySqlCommand drug = new MySqlCommand("insert into drug (drugID, presID, drugName, strength, form, dispense, dose, frequency, comments) values (@drugID, @presID, @drugName, @strength, @form, @dispense, @dose, @frequency, @comments);", mySqlConnection);
+                    drug.Parameters.AddWithValue("@drugID", int.Parse(drugsReader["drugID"].ToString()));
+                    drug.Parameters.AddWithValue("@presID", prsID);
+                    drug.Parameters.AddWithValue("@drugName", drugsReader["drugName"].ToString());
+                    drug.Parameters.AddWithValue("@strength", int.Parse(drugsReader["strength"].ToString()));
+                    drug.Parameters.AddWithValue("@form", drugsReader["form"].ToString());
+                    drug.Parameters.AddWithValue("@dispense", int.Parse(drugsReader["dispense"].ToString()));
+                    drug.Parameters.AddWithValue("@dose", int.Parse(drugsReader["dose"].ToString()));
+                    drug.Parameters.AddWithValue("@frequency", drugsReader["frequency"].ToString());
+                    drug.Parameters.AddWithValue("@comments", drugsReader["comments"].ToString());
+
+                    drug.ExecuteNonQuery();
+                }*/
+                drugsReader.Close();
+                //mySqlConnection.Close();
+                con.Close();
+                flag = true;
+            }
             con.Open();
 
             //retreiving Doctor information
@@ -545,7 +594,7 @@ namespace DrPanel.UserControls
         private void button2_Click(object sender, EventArgs e)
         {
             con.Open();
-            mySqlConnection.Open();
+            //mySqlConnection.Open();
             SqlCommand pres = new SqlCommand("select * from Prescription where active = 1;", con);
             SqlDataReader presReader = pres.ExecuteReader();
             int presID = 0;
@@ -557,20 +606,20 @@ namespace DrPanel.UserControls
                 drugsamount = int.Parse(presReader["drugsAmount"].ToString());
                 NID = long.Parse(presReader["NID"].ToString());
                 String Diagnosis = presReader["Diagnosis"].ToString();
-                MySqlCommand presc = new MySqlCommand("insert into Prescription(prsID, NID, drugsAmount, active, Diagnosis, prDate) values(@prsID, @NID, @drugsAmount, @active, @Diagnosis, @prDate);", mySqlConnection);
+                /*MySqlCommand presc = new MySqlCommand("insert into Prescription(prsID, NID, drugsAmount, active, Diagnosis, prDate, tobeOrdered) values(@prsID, @NID, @drugsAmount, @active, @Diagnosis, @prDate, 1);", mySqlConnection);
                 presc.Parameters.AddWithValue("@prsID", presID);
                 presc.Parameters.AddWithValue("@NID", NID);
                 presc.Parameters.AddWithValue("@Diagnosis", Diagnosis);
                 presc.Parameters.AddWithValue("@drugsAmount", drugsamount);
                 presc.Parameters.AddWithValue("@prDate", DateTime.Now.Date.ToString("yyyy-MM-dd"));
                 presc.Parameters.AddWithValue("@active", 0);
-                presc.ExecuteNonQuery();
+                presc.ExecuteNonQuery();*/
             }
             presReader.Close();
             SqlCommand drugs = new SqlCommand("select * from drug where presID = @presID", con);
             drugs.Parameters.Add("@presID", presID);
             SqlDataReader drugsReader = drugs.ExecuteReader();
-            while(drugsReader.Read())
+            /*while(drugsReader.Read())
             {
                 MySqlCommand drug = new MySqlCommand("insert into drug (drugID, presID, drugName, strength, form, dispense, dose, frequency, comments) values (@drugID, @presID, @drugName, @strength, @form, @dispense, @dose, @frequency, @comments);", mySqlConnection);
                 drug.Parameters.AddWithValue("@drugID", int.Parse(drugsReader["drugID"].ToString()));
@@ -584,10 +633,11 @@ namespace DrPanel.UserControls
                 drug.Parameters.AddWithValue("@comments", drugsReader["comments"].ToString());
 
                 drug.ExecuteNonQuery();
-            }
+            }*/
             drugsReader.Close();
-            mySqlConnection.Close();
+            //mySqlConnection.Close();
             con.Close();
+            flag = true;
 
             MessageBox.Show("Order Placed Successfully!");
         }

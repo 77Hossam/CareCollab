@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using DrPanel;
 using System.Data.SqlClient;
 
-namespace Clinic_System
+namespace Clinic_System 
 {
     public partial class WelcomePg : Form
     {
@@ -150,6 +150,11 @@ namespace Clinic_System
         {
             NewSignUp.Form1 Signup = new NewSignUp.Form1();
             Signup.Show();
+        }
+
+        private void pictureBox1_Click_2(object sender, EventArgs e)
+        {
+
         }
     }
 }

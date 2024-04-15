@@ -14,6 +14,7 @@ using System.Xml.Linq;
 using Hl7.Fhir.Rest;
 using Hl7.Fhir.Model;
 using System.Net.Http;
+using MySql.Data.MySqlClient;
 
 
 namespace NewNewSecretary
@@ -22,6 +23,7 @@ namespace NewNewSecretary
     {
         //protected FhirClient _client;
         //Dictionary<string, Patients> Patients_dic = new Dictionary<string, Patients>();//This dic mimics the database, once Patient added to server we save refrence to its logical id
+        //MySqlConnection mySqlConnection = new MySqlConnection("server=sql12.freesqldatabase.com; user=sql12628032; database=sql12628032; password=fVWYdFY3Wc");
         SqlConnection con = new SqlConnection();
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
 
@@ -95,6 +97,45 @@ namespace NewNewSecretary
             }
 
             con.Close();
+
+            //mySqlConnection.Open();
+            //MySqlCommand onlinept = new MySqlCommand("select * from patient where online = 1", mySqlConnection);
+            //MySqlDataReader onlineReader = onlinept.ExecuteReader();
+            con.Open();
+            //while (onlineReader.Read())
+            //{
+                SqlCommand localpt = new SqlCommand("insert into patient(NID, patient_fname,patient_lname, age, Gender) values(@NID, @patient_fname, @patient_lname, @age, @Gender);", con);
+            //    localpt.Parameters.AddWithValue("@NID", long.Parse(onlineReader["NID"].ToString()));
+            //    localpt.Parameters.AddWithValue("@patient_fname", onlineReader["patient_fname"].ToString());
+            //    localpt.Parameters.AddWithValue("@patient_lname", onlineReader["patient_lname"].ToString());
+            //    localpt.Parameters.AddWithValue("@age", int.Parse(onlineReader["age"].ToString()));
+            //    localpt.Parameters.AddWithValue("@Gender", onlineReader["Gender"].ToString());
+            //    localpt.ExecuteNonQuery();
+            //}
+            con.Close();
+            //onlineReader.Close();
+
+            //MySqlCommand refresh = new MySqlCommand("update patient set online = 0 where online = 1;", mySqlConnection);
+            //refresh.ExecuteNonQuery();
+
+            //MySqlCommand appt = new MySqlCommand("select * from Appointment where online = 1;", mySqlConnection);
+            //MySqlDataReader apptReader = appt.ExecuteReader();
+            con.Open();
+            //while(apptReader.Read())
+            //{
+                SqlCommand newapt = new SqlCommand("insert into Appointment(apTime, apDate, pNID) values(@apTime, @apDate, @pNID);", con);
+            //    newapt.Parameters.AddWithValue("@apTime", apptReader["apTime"].ToString());
+            //    newapt.Parameters.AddWithValue("@apDate", apptReader["apDate"].ToString());
+            //    newapt.Parameters.AddWithValue("@pNID", apptReader["pNID"].ToString());
+            //    newapt.ExecuteNonQuery();
+            //}
+            con.Close();
+            //apptReader.Close();
+
+            //MySqlCommand aptrefresh = new MySqlCommand("update Appointment set online = 0 where online = 1;", mySqlConnection);
+            //aptrefresh.ExecuteNonQuery();
+
+            //mySqlConnection.Close();
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -169,6 +210,11 @@ namespace NewNewSecretary
         }
 
         private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
